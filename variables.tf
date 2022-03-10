@@ -1,3 +1,22 @@
+# Global
+variable "name" {
+  type        = string
+  description = "The name of the deployment."
+  default     = "longhorn"
+}
+
+variable "compartment" {
+  type        = string
+  description = "The compartment the ressource is deployed with."
+}
+
+# Ingress
+variable "ingress_dns" {
+  type        = string
+  description = "The domain name where longhorn should be reachable."
+}
+
+# Gatekeeper
 variable "gatekeeper_client_id" {
   type        = string
   description = "The client ID of the longhorn client."

@@ -10,13 +10,13 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`longhorn.zelos.k8s.infra.erpf.de`) # Hostname to match
+    - match: Host(`${var.ingress_dns}`) # Hostname to match
       kind: Rule
       services: # Service to redirect requests to
         - name: longhorn-gatekeeper
           port: 80
   tls:
-    secretName: longhorn-erpf-de-tls
+    secretName: ${replace(var.ingress_dns, ".", "-")}-tls
 EOF
 
   depends_on = [
@@ -32,16 +32,16 @@ resource "kubectl_manifest" "certificate" {
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: longhorn-erpf-de-tls
+  name: ${replace(var.ingress_dns, ".", "-")}-tls
   namespace: longhorn-system
 spec:
-  secretName: longhorn-erpf-de-tls
+  secretName: ${replace(var.ingress_dns, ".", "-")}-tls
   issuerRef:
     name: cloudflare-letsencrypt-prod
     kind: ClusterIssuer
-  commonName: longhorn.zelos.k8s.infra.erpf.de
+  commonName: ${var.ingress_dns}
   dnsNames:
-  - "longhorn.zelos.k8s.infra.erpf.de"
+  - "${var.ingress_dns}"
 EOF
 
   depends_on = [

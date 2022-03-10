@@ -5,7 +5,7 @@ resource "kubernetes_namespace" "longhorn" {
     }
 
     labels = {
-      managed-by = "artemis-installer"
+      managed-by = var.compartment
     }
 
     name = "longhorn-system"
