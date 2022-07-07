@@ -1,23 +1,24 @@
 resource "kubernetes_namespace" "longhorn" {
   metadata {
     annotations = {
-      name = "longhorn-system"
+      name = var.namespace
     }
 
     labels = {
       managed-by = var.compartment
     }
 
-    name = "longhorn-system"
+    name = var.namespace
   }
 }
 
 resource "helm_release" "longhorn" {
-  name       = "longhorn"
+  name       = var.name
   repository = "https://charts.longhorn.io"
   chart      = "longhorn"
-  version    = "1.2.3"
-  namespace  = "longhorn-system"
+  version    = "1.2.4"
+  namespace  = var.namespace
+  timeout    = 600
 
   depends_on = [
     kubernetes_namespace.longhorn,

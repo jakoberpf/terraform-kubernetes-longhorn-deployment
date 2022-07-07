@@ -47,7 +47,8 @@ spec:
 EOF
 
   depends_on = [
-    kubernetes_namespace.longhorn
+    kubernetes_namespace.longhorn,
+    helm_release.longhorn
   ]
 }
 
@@ -71,6 +72,7 @@ spec:
 EOF
 
   depends_on = [
-    kubernetes_namespace.longhorn
+    kubernetes_namespace.longhorn,
+    helm_release.longhorn
   ]
 }

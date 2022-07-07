@@ -5,15 +5,53 @@ variable "name" {
   default     = "longhorn"
 }
 
+variable "namespace" {
+  type        = string
+  description = "The namespace of the deployment."
+  default     = "longhorn-system"
+}
+
 variable "compartment" {
   type        = string
   description = "The compartment the ressource is deployed with."
+}
+
+# Backup - AWS
+variable "aws_access_key_id" {
+  type        = string
+  default     = ""
+  description = "The AWS_ACCESS_KEY_ID for the S3 Backup Bucket"
+}
+
+variable "aws_secret_access_key" {
+  type        = string
+  default     = ""
+  description = "The AWS_SECRET_ACCESS_KEY for the S3 Backup Bucket."
 }
 
 # Ingress
 variable "ingress_dns" {
   type        = string
   description = "The domain name where longhorn should be reachable."
+}
+
+variable "ingress_type" {
+  type        = string
+  description = "The ingress type. Can be either 'traefik', 'istio' or 'none'"
+  default     = "none"
+}
+
+# Certificate
+variable "issuer_name" {
+  type        = string
+  description = "The certifictae issuer name."
+  default     = "cloudflare-letsencrypt-staging"
+}
+
+variable "issuer_type" {
+  type        = string
+  description = "The certifictae issuer type."
+  default     = "ClusterIssuer"
 }
 
 # Gatekeeper
