@@ -16,7 +16,7 @@ resource "helm_release" "longhorn" {
   name       = var.name
   repository = "https://charts.longhorn.io"
   chart      = "longhorn"
-  version    = "1.2.4"
+  version    = "1.3.0"
   namespace  = var.namespace
   timeout    = 600
 
