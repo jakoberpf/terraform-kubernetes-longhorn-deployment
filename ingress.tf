@@ -79,7 +79,7 @@ spec:
   hosts:
     - ${var.ingress_dns}
   gateways:
-    - {{ $fullName }}
+    - longhorn-dashboard
   http:
     - match:
       - uri:
@@ -89,7 +89,6 @@ spec:
           port:
             number: 443
           host: longhorn-gatekeeper
-{{- end }}
 EOF
 
   depends_on = [
