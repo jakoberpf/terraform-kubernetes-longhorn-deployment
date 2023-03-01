@@ -16,6 +16,12 @@ variable "compartment" {
   description = "The compartment the ressource is deployed with."
 }
 
+# Helm
+variable "helm_chart_version" {
+  type    = string
+  default = "1.4.0"
+}
+
 # Backup - AWS
 variable "aws_access_key_id" {
   type        = string
