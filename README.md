@@ -1,6 +1,6 @@
 # terraform-module-kubernetes-longhorn-deployment
 
-This module manages the longhorn deployment.
+This module manages the distributed storage longhorn deployment.
 
 ## TODOs
 
