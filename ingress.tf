@@ -5,7 +5,7 @@ resource "kubectl_manifest" "traefik_ingress_route" {
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: longhorn-dashboard
+  name: longhorn-ui
   namespace: ${var.namespace}
 spec:
   entryPoints:
@@ -16,7 +16,7 @@ spec:
     - match: Host(`${var.ingress_dns}`)
       kind: Rule
       services:
-        - name: longhorn-gatekeeper
+        - name: longhorn-frontend
           port: 80
 EOF
 
@@ -34,7 +34,7 @@ resource "kubectl_manifest" "istio_gateway" {
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: longhorn-dashboard
+  name: longhorn-ui
   namespace: ${var.namespace}
 spec:
   selector:
@@ -73,13 +73,13 @@ resource "kubectl_manifest" "istio_virtual_service" {
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: longhorn-dashboard
+  name: longhorn-ui
   namespace: ${var.namespace} 
 spec:
   hosts:
     - ${var.ingress_dns}
   gateways:
-    - longhorn-dashboard
+    - longhorn-ui
   http:
     - match:
       - uri:
@@ -87,8 +87,8 @@ spec:
       route:
       - destination:
           port:
-            number: 443
-          host: longhorn-gatekeeper
+            number: 80
+          host: longhorn-oauth2-proxy
 EOF
 
   depends_on = [
@@ -97,6 +97,56 @@ EOF
     kubectl_manifest.certificate
   ]
 }
+
+/* resource "kubectl_manifest" "istio_request_authentication" {
+  count     = var.ingress_type == "istio" ? 1 : 0
+  yaml_body = <<-EOF
+---
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: longhorn-ui
+  namespace: ${var.namespace}
+spec:
+  selector:
+    matchLabels:
+      app: longhorn-ui
+  jwtRules:
+  - issuer: "https://iam.erpf.de/auth/realms/infrastructure"
+    jwks_Uri: "https://iam.erpf.de/auth/realms/infrastructure/protocol/openid-connect/certs"
+EOF
+
+  depends_on = [
+    kubernetes_namespace.longhorn,
+    helm_release.longhorn
+  ]
+}
+
+resource "kubectl_manifest" "istio_authorization_policy" {
+  count     = var.ingress_type == "istio" ? 1 : 0
+  yaml_body = <<-EOF
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: longhorn-ui
+  namespace: ${var.namespace}
+spec:
+  selector:
+    matchLabels:
+      app: longhorn-ui
+  action: DENY
+  rules:
+  - from:
+    - source:
+        requestPrincipals: ["*"]
+EOF
+
+  depends_on = [
+    kubernetes_namespace.longhorn,
+    helm_release.longhorn
+  ]
+} */
 
 resource "kubectl_manifest" "certificate" {
   yaml_body = <<-EOF
