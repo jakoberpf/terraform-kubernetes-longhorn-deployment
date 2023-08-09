@@ -36,6 +36,12 @@ variable "aws_secret_access_key" {
 }
 
 # Ingress
+variable "ingress_enabled" {
+  type        = bool
+  default     = false
+  description = "Exposes the Longhorn UI"
+}
+
 variable "ingress_dns" {
   type        = string
   description = "The domain name where longhorn should be reachable."
