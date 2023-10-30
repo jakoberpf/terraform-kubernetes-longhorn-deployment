@@ -35,6 +35,12 @@ variable "aws_secret_access_key" {
   description = "The AWS_SECRET_ACCESS_KEY for the S3 Backup Bucket."
 }
 
+variable "backup_location" {
+  type        = string
+  default     = "s3://longhorn-zelos-backup@eu-central-1/"
+  description = "The endpoint for the backup bucket"
+}
+
 # Ingress
 variable "ingress_enabled" {
   type        = bool
