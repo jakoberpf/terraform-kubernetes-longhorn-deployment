@@ -19,7 +19,7 @@ variable "compartment" {
 # Helm
 variable "helm_chart_version" {
   type    = string
-  default = "1.4.3"
+  default = "1.4.4"
 }
 
 # Backup - AWS
