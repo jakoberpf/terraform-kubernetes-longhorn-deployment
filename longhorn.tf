@@ -13,7 +13,7 @@ resource "helm_release" "longhorn" {
 
   set {
     name  = "defaultSettings.backupTargetCredentialSecret"
-    value = kubernetes_secret.aws_secret.metadata.name
+    value = kubernetes_secret.aws_secret[0] != null ? kubernetes_secret.aws_secret[0].metadata[0].name : ""
   }
 
   depends_on = [
