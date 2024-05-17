@@ -13,7 +13,7 @@ This module manages the distributed storage longhorn deployment.
 |------|---------|
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | ~> 2.12.0 |
 | <a name="requirement_kubectl"></a> [kubectl](#requirement\_kubectl) | ~> 1.14.0 |
-| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | ~> 2.24.0 |
+| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | ~> 2.25.0 |
 
 ## Providers
 
@@ -21,7 +21,7 @@ This module manages the distributed storage longhorn deployment.
 |------|---------|
 | <a name="provider_helm"></a> [helm](#provider\_helm) | ~> 2.12.0 |
 | <a name="provider_kubectl"></a> [kubectl](#provider\_kubectl) | ~> 1.14.0 |
-| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | ~> 2.24.0 |
+| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | ~> 2.25.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | n/a |
 
 ## Modules
